@@ -35,8 +35,12 @@ vendor.audio.ultrasound.stoplatency=60
 vendor.audio.ultrasound.usync=100
 
 # Camera
+<<<<<<< HEAD:props/odm.prop
 ro.camerax.extensions.enabled=false
 ro.camera.disableHeicUltraHDR=true
+=======
+ro.camerax.extensions.enabled=true
+>>>>>>> 4ada180 (peridot: Add support of CameraX Vendor Extensions):configs/props/odm.prop
 
 # DRM
 vendor.wv.oemcrypto.debug.enable_prov40=true
