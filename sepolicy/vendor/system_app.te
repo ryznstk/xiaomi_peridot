@@ -2,6 +2,9 @@
 allow system_app vendor_sysfs_touch:dir search;
 allow system_app vendor_sysfs_touch:file rw_file_perms;
 
+# Color
+hal_client_domain(system_app, vendor_hal_displayfeature_xiaomi)
+
 # Power profile / thermal
 allow system_app sysfs_thermal:dir search;
 allow system_app sysfs_thermal:file rw_file_perms;
