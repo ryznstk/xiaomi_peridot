@@ -281,3 +281,4 @@ include vendor/xiaomi/peridot/BoardConfigVendor.mk
 
 # Vendor MiuiCamera
 -include device/xiaomi/peridot-miuicamera/BoardConfig.mk
+SELINUX_IGNORE_NEVERALLOWS := true
