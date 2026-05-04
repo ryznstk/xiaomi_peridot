@@ -48,9 +48,6 @@
 # Charging Control
 /sys/class/qcom-battery/input_suspend  u:object_r:vendor_sysfs_battery_supply:s0
 
-# Color
-/data/vendor/display(/.*)? u:object_r:vendor_display_data_file:s0
-
 # Diag
 /data/vendor/modem(/.*)? u:object_r:vendor_modem_data_file:s0
 
