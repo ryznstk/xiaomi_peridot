@@ -43,6 +43,7 @@ public class PowerProfileTileService extends TileService {
         BATTERY(1, R.string.powerprofile_battery, R.drawable.ic_power_battery_saver, "0"),
         PERFORMANCE(6, R.string.powerprofile_performance, R.drawable.ic_power_performance, "2"),
         GAMING(18, R.string.powerprofile_gaming, R.drawable.ic_power_gaming, "3"),
+        GAMING(18, R.string.powerprofile_gaming, R.drawable.ic_power_performance, "3"),
         UNKNOWN(-1, R.string.powerprofile_unknown, R.drawable.ic_power_default, "1");
 
         private final int value;
@@ -73,8 +74,9 @@ public class PowerProfileTileService extends TileService {
             switch (this) {
                 case DEFAULT: return BATTERY;
                 case BATTERY: return PERFORMANCE;
-                case PERFORMANCE: 
-                case UNKNOWN: 
+                case PERFORMANCE: return GAMING;
+                case GAMING:
+                case UNKNOWN:
                 default: return DEFAULT;
             }
         }
@@ -222,7 +224,11 @@ public class PowerProfileTileService extends TileService {
         }
 
         boolean isCharging = isCharging();
-        
+
+        // Handle HTSR for PERFORMANCE profile
+        boolean htsrEnabled = profile == PowerProfile.PERFORMANCE || profile == PowerProfile.GAMING;
+        updateTouchSamplingState(htsrEnabled);
+
         switch (profile) {
             case BATTERY:
                 if (!isCharging) {
@@ -233,8 +239,9 @@ public class PowerProfileTileService extends TileService {
                 cancelPerformanceNotification();
                 break;
             case PERFORMANCE:
+            case GAMING:
                 setBatterySaver(false); // Always disable battery saver for PERFORMANCE
-                showPerformanceNotification();
+                showPerformanceNotification(profile);
                 break;
             case DEFAULT:
                 setBatterySaver(false);
@@ -291,7 +298,7 @@ public class PowerProfileTileService extends TileService {
         mNotificationManager.createNotificationChannel(channel);
     }
 
-    private void showPerformanceNotification() {
+    private void showPerformanceNotification(PowerProfile profile) {
         if (mNotificationManager == null) return;
 
         Intent intent = new Intent(Settings.ACTION_SETTINGS);
@@ -304,15 +311,12 @@ public class PowerProfileTileService extends TileService {
                 : R.string.perf_mode_notification;
 
         Notification notification = new Notification.Builder(this, TAG)
-<<<<<<< HEAD
-            .setContentTitle(getString(R.string.perf_mode_title))
+        
+            .setContentTitle(getString(profile.getNameResId()))
             .setContentText(getString(R.string.perf_mode_notification))
             .setSmallIcon(R.drawable.ic_power_performance)
-=======
-            .setContentTitle(getString(profile.getNameResId()))
             .setContentText(getString(contentTextResId))
             .setSmallIcon(profile.getIconResId())
->>>>>>> d061c09 (peridot: parts: XiaomiParts Rework: Add Seperate Notification And Icon For GamingProfile)
             .setContentIntent(pendingIntent)
             .setOngoing(true)
             .build();
@@ -333,9 +337,9 @@ public class PowerProfileTileService extends TileService {
             public void onChange(boolean selfChange) {
                 boolean isBatterySaverOn = Settings.Global.getInt(
                     getContentResolver(), Settings.Global.LOW_POWER_MODE, 0) == 1;
-                
+
                 PowerProfile current = getCurrentProfile();
-                if (isBatterySaverOn && !isCharging() && current != PowerProfile.PERFORMANCE) {
+                if (isBatterySaverOn && !isCharging() && current != PowerProfile.PERFORMANCE && current != PowerProfile.GAMING) {
                     if (current != PowerProfile.BATTERY) {
                         Log.d(TAG, "Battery saver enabled, switching to battery profile");
                         applyProfile(PowerProfile.BATTERY);
