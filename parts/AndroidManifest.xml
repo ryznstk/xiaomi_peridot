@@ -227,5 +227,19 @@
              </intent-filter>
          </activity>
 
+        <!-- Charging Tile Service -->
+        <service
+            android:name=".charge.ChargeTileService"
+            android:label="@string/charge_tile_title"
+            android:icon="@drawable/ic_charge_nuke"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.quicksettings.TOGGLEABLE_TILE"
+                android:value="true" />
+         </service>
     </application>
 </manifest>
