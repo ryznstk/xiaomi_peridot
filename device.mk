@@ -23,6 +23,20 @@ $(call inherit-product, packages/modules/Virtualization/apex/product_packages.mk
 $(call soong_config_set,rfs,mpss_firmware_symlink_target,modem_firmware)
 $(call inherit-product, hardware/qcom-caf/common/common.mk)
 
+# GameBar Performance Overlay
+$(call inherit-product, packages/apps/GameBar/gamebar.mk) 
+
+# Lineage-Priv
+-include vendor/lineage-priv/keys/keys.mk
+
+# Call the MiuiCamera setup
+$(call inherit-product-if-exists, device/xiaomi/peridot-miuicamera/device.mk)
+
+# Viper4AndroidFX
+$(call inherit-product, packages/apps/ViPER4AndroidFX/config.mk)
+
+PRODUCT_ENABLE_UFFD_GC := true
+
 # A/B
 AB_OTA_POSTINSTALL_CONFIG += \
     RUN_POSTINSTALL_system=true \
