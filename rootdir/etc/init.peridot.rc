@@ -23,16 +23,16 @@ on early-init
     chown system graphics /sys/class/drm/card0/device/power/control
 
     # CPU DMA latency
-    chown system system /dev/cpu_dma_latency
-    chmod 0660 /dev/cpu_dma_latency
+    chown root system /dev/cpu_dma_latency
+    chmod 0664 /dev/cpu_dma_latency
 
     # Top-app uclamp
-    chown system system /dev/cpuctl/top-app/cpu.uclamp.latency_sensitive
-    chown system system /dev/cpuctl/top-app/cpu.uclamp.min
-    chown system system /dev/cpuctl/top-app/cpu.uclamp.max
-    chmod 0660 /dev/cpuctl/top-app/cpu.uclamp.latency_sensitive
-    chmod 0660 /dev/cpuctl/top-app/cpu.uclamp.min
-    chmod 0660 /dev/cpuctl/top-app/cpu.uclamp.max
+    chown root system /dev/cpuctl/top-app/cpu.uclamp.latency_sensitive
+    chown root system /dev/cpuctl/top-app/cpu.uclamp.min
+    chown root system /dev/cpuctl/top-app/cpu.uclamp.max
+    chmod 0664 /dev/cpuctl/top-app/cpu.uclamp.latency_sensitive
+    chmod 0664 /dev/cpuctl/top-app/cpu.uclamp.min
+    chmod 0664 /dev/cpuctl/top-app/cpu.uclamp.max
 
     # Core control
     chown system system /sys/devices/system/cpu/cpu0/core_ctl/enable
@@ -52,8 +52,8 @@ on early-init
     chmod 0660 /sys/devices/system/cpu/cpu7/core_ctl/min_cpus
 
     # Foreground uclamp
-    chown system system /dev/cpuctl/foreground/cpu.uclamp.min
-    chmod 0660 /dev/cpuctl/foreground/cpu.uclamp.min
+    chown root system /dev/cpuctl/foreground/cpu.uclamp.min
+    chmod 0664 /dev/cpuctl/foreground/cpu.uclamp.min
 
 on boot
     # Disable FB scaling // xiaomi disables it in qti_display_boot scripts
@@ -181,22 +181,22 @@ on boot
     chmod 0666 /dev/input/event2
 
     # CPU-Sets
-    chown system system /dev/cpuset/cgroup.procs
-    chown system system /dev/cpuset/foreground/cgroup.procs
-    chown system system /dev/cpuset/background/cgroup.procs
-    chown system system /dev/cpuset/system-background/cgroup.procs
-    chown system system /dev/cpuset/top-app/cgroup.procs
+    chown root system /dev/cpuset/cgroup.procs
+    chown root system /dev/cpuset/foreground/cgroup.procs
+    chown root system /dev/cpuset/background/cgroup.procs
+    chown root system /dev/cpuset/system-background/cgroup.procs
+    chown root system /dev/cpuset/top-app/cgroup.procs
 
-    chmod 0666 /dev/cpuset/foreground/cgroup.procs
-    chmod 0666 /dev/cpuset/background/cgroup.procs
-    chmod 0666 /dev/cpuset/system-background/cgroup.procs
-    chmod 0666 /dev/cpuset/top-app/cgroup.procs
-    chmod 0666 /dev/cpuset/cgroup.procs
+    chmod 0664 /dev/cpuset/foreground/cgroup.procs
+    chmod 0664 /dev/cpuset/background/cgroup.procs
+    chmod 0664 /dev/cpuset/system-background/cgroup.procs
+    chmod 0664 /dev/cpuset/top-app/cgroup.procs
+    chmod 0664 /dev/cpuset/cgroup.procs
 
-    chown system system /dev/stune/background/cgroup.procs
-    chown system system /dev/stune/top-app/cgroup.procs
-    chmod 0666 /dev/stune/background/cgroup.procs
-    chmod 0666 /dev/stune/top-app/cgroup.procs
+    chown root system /dev/stune/background/cgroup.procs
+    chown root system /dev/stune/top-app/cgroup.procs
+    chmod 0664 /dev/stune/background/cgroup.procs
+    chmod 0664 /dev/stune/top-app/cgroup.procs
 
 on charger
     chown system system /sys/class/backlight/panel0-backlight/brightness
@@ -208,9 +208,9 @@ on charger
 on init
     chmod 0666 /dev/uhid
     mkdir /dev/cpuctl/misc
-    chown system system /dev/cpuctl/misc
-    chown system system /dev/cpuctl/misc/tasks
-    chown system system /dev/cpuctl/misc/cgroup.procs
+    chown root system /dev/cpuctl/misc
+    chown root system /dev/cpuctl/misc/tasks
+    chown root system /dev/cpuctl/misc/cgroup.procs
     chmod 0664 /dev/cpuctl/misc/cgroup.procs
     chmod 0664 /dev/cpuctl/misc/tasks
     mkdir /dev/cpuset/small-window
@@ -284,9 +284,9 @@ on post-fs-data
     chmod 0664 /sys/class/leds/led:torch_2/brightness
     chmod 0664 /sys/class/leds/led:torch_3/brightness
     chmod 0664 /sys/class/leds/led:flash_0/brightness
-    chmod 0664 /sys/class/leds/led:flash_1/brightness
-    chmod 0664 /sys/class/leds/led:flash_2/brightness
-    chmod 0664 /sys/class/leds/led:flash_3/brightness
+    chmod 0664 /sys/class/leds/flash_1/brightness
+    chmod 0664 /sys/class/leds/flash_2/brightness
+    chmod 0664 /sys/class/leds/flash_3/brightness
     chmod 0664 /sys/class/leds/led:switch_0/brightness
     chmod 0664 /sys/class/leds/led:switch_1/brightness
     chmod 0664 /sys/class/leds/led:switch_2/brightness
@@ -311,8 +311,9 @@ on property:persist.vendor.ssr.restart_level=ALL_DISABLE
 on property:vendor.post_boot.parsed=1
     # Setup runtime cpus
     write /dev/cpuset/background/cpus 0-1
-    write /dev/cpuset/restricted/cpus 0-3
-    write /dev/cpuset/foreground/cpus 0-6
+    write /dev/cpuset/restricted/cpus 0-1
+    write /dev/cpuset/system-background/cpus 0-1
+    write /dev/cpuset/top-app/cpus 0-7
 
     # IRQ Tuning
     # IRQ 70: msm_drm0
@@ -360,12 +361,13 @@ on property:vendor.post_boot.parsed=1
 
 on property:sys.boot_completed=1
     # KGSL
-    chown system system /sys/class/kgsl/kgsl-3d0/devfreq/max_freq
-    chown system system /sys/class/kgsl/kgsl-3d0/devfreq/min_freq
-    chown system system /sys/class/kgsl/kgsl-3d0/idle_timer
-    chmod 0660 /sys/class/kgsl/kgsl-3d0/devfreq/max_freq
-    chmod 0660 /sys/class/kgsl/kgsl-3d0/devfreq/min_freq
-    chmod 0660 /sys/class/kgsl/kgsl-3d0/idle_timer
+    chown root system /sys/class/kgsl/kgsl-3d0/devfreq/max_freq
+    chown root system /sys/class/kgsl/kgsl-3d0/devfreq/min_freq
+    chown root system /sys/class/kgsl/kgsl-3d0/idle_timer
+
+    chmod 0664 /sys/class/kgsl/kgsl-3d0/devfreq/max_freq
+    chmod 0664 /sys/class/kgsl/kgsl-3d0/devfreq/min_freq
+    chmod 0664 /sys/class/kgsl/kgsl-3d0/idle_timer
 
     # qcom_lpm
     chown system system /sys/devices/system/cpu/qcom_lpm/parameters/prediction_disabled
