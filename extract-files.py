@@ -92,7 +92,10 @@ lib_fixups: lib_fixups_user_type = {
     ): lib_fixup_vendor_suffix,
 }
 
-blob_fixups: blob_fixups_user_type = {
+blob_fixups: blob_fixups_user_type = {     
+    'vendor/lib64/libcodec2_soft_ac4dec.so': blob_fixup()
+        .sig_replace('fd 7b be a9 f4 4f 01 a9 fd 03 00 91 14 06 00 90', '80 35 86 52 80 00 a0 72 c0 03 5f d6 1f 20 03 d5'),
+
     'system/framework/WfdCommon.jar': blob_fixup()
         .apktool_patch('blob-patches/WfdCommon.patch'),
     'system_ext/etc/init/qspa_system.rc': blob_fixup()
