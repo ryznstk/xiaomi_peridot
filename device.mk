@@ -23,6 +23,9 @@ $(call inherit-product, packages/modules/Virtualization/apex/product_packages.mk
 $(call soong_config_set,rfs,mpss_firmware_symlink_target,modem_firmware)
 $(call inherit-product, hardware/qcom-caf/common/common.mk)
 
+# JamesDSP
+$(call inherit-product, packages/apps/JamesDSPManager/config.mk)
+
 # GameBar Performance Overlay
 $(call inherit-product, packages/apps/GameBar/gamebar.mk) 
 
