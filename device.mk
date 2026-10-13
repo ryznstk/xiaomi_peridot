@@ -36,7 +36,7 @@ $(call inherit-product, packages/apps/GameBar/gamebar.mk)
 $(call inherit-product-if-exists, device/xiaomi/peridot-miuicamera/device.mk)
 
 # Viper4AndroidFX
-$(call inherit-product, packages/apps/ViPER4AndroidFX/config.mk)
+$(call inherit-product, packages/apps/JamesDSPManager/config.mk)
 
 PRODUCT_ENABLE_UFFD_GC := true
 
