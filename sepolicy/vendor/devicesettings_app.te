@@ -23,5 +23,7 @@ allow devicesettings_app sysfs:file { read open };
 
 allow system_app proc_filesystems:file read;
 
+binder_call(parts_app, hal_touchfeature_xiaomi_default)
+
 get_prop(devicesettings_app, exported_system_prop)
 get_prop(devicesettings_app, system_prop)
