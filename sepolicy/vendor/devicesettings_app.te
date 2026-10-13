@@ -21,5 +21,7 @@ allow devicesettings_app system_prop:property_service set;
 allow devicesettings_app sysfs:dir search;
 allow devicesettings_app sysfs:file { read open };
 
+allow system_app proc_filesystems:file read;
+
 get_prop(devicesettings_app, exported_system_prop)
 get_prop(devicesettings_app, system_prop)
