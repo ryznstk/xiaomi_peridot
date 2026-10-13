@@ -27,6 +27,7 @@ import android.util.Log;
 import androidx.preference.PreferenceManager;
 
 import org.lineageos.settings.R;
+import org.lineageos.settings.touchsampling.TouchSamplingUtils;
 import org.lineageos.settings.utils.FileUtils;
 
 public class PowerProfileTileService extends TileService {
@@ -43,7 +44,6 @@ public class PowerProfileTileService extends TileService {
         BATTERY(1, R.string.powerprofile_battery, R.drawable.ic_power_battery_saver, "0"),
         PERFORMANCE(6, R.string.powerprofile_performance, R.drawable.ic_power_performance, "2"),
         GAMING(18, R.string.powerprofile_gaming, R.drawable.ic_power_gaming, "3"),
-        GAMING(18, R.string.powerprofile_gaming, R.drawable.ic_power_performance, "3"),
         UNKNOWN(-1, R.string.powerprofile_unknown, R.drawable.ic_power_default, "1");
 
         private final int value;
@@ -188,6 +188,10 @@ public class PowerProfileTileService extends TileService {
         int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
         return status == BatteryManager.BATTERY_STATUS_CHARGING ||
                status == BatteryManager.BATTERY_STATUS_FULL;
+    }
+
+    private void updateTouchSamplingState(boolean enabled) {
+        TouchSamplingUtils.writeTouchSamplingState(enabled ? 1 : 0);
     }
 
     private void applyProfile(PowerProfile profile) {

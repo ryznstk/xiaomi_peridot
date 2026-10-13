@@ -9,7 +9,7 @@
     hal_touchfeature_xiaomi_default_exec
     hal_touchfeature_xiaomi_hwservice
     hal_touchfeature_xiaomi_service
-    parts_app
+    devicesettings_app
     settingslib_prop
     touchfeature_device
     vendor_hal_displayfeature_xiaomi_default
