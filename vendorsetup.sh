@@ -29,7 +29,11 @@ git clone -b 17 https://github.com/ryznstk/android_device_xiaomi_peridot-miuicam
 # MiuiCamera vendor tree (fresh clone)
 echo "Cloning MiuiCamera vendor tree..."
 rm -rf vendor/xiaomi/peridot-miuicamera
-git clone https://gitlab.com/blu96/proprietary_vendor_xiaomi_peridot-miuicamera.git vendor/xiaomi/peridot-miuicamera
+git clone https://github.com/peridot-hyperos-2/vendor_xiaomi_peridot-miuicamera.git vendor/xiaomi/peridot-miuicamera
+if [ -f vendor/xiaomi/peridot-miuicamera/vendorsetup.sh ]; then
+    echo "Assembling MiuiCamera.apk..."
+    bash vendor/xiaomi/peridot-miuicamera/vendorsetup.sh
+fi
 
 # Gamebar
 echo "Cloning Gamebar tree..."
@@ -42,8 +46,8 @@ rm -rf packages/apps/XiaomiParts
 rm -rf packages/apps/JamesDSPManager
 git clone https://github.com/ryznstk/packages_apps_JamesDSPManager.git packages/apps/JamesDSPManager
 
-rm -rf packages/apps/TouchServices
-git clone https://github.com/ryznstk/packages_apps_TouchServices.git -b lineage-23.2 packages/apps/TouchServices
+#rm -rf packages/apps/TouchServices
+#git clone https://github.com/ryznstk/packages_apps_TouchServices.git -b lineage-23.2 packages/apps/TouchServices
 
 #cd vendor/lineage
 #git fetch https://github.com/CipherOS/android_vendor_cipher seventeen
@@ -58,13 +62,13 @@ echo "Cloning KProfiles..."
 rm -rf packages/apps/NotGameTurbo
 git clone https://github.com/ryznstk/android_packages_apps_NotGameTurbo.git packages/apps/NotGameTurbo
 
-rm -rf vendor/custom
-git clone -b heptakaideka https://github.com/ShinkaiProject/android_vendor_shinkai.git vendor/custom
+#rm -rf vendor/custom
+#git clone -b heptakaideka https://github.com/ShinkaiProject/android_vendor_shinkai.git vendor/custom
 
-cd system/sepolicy
-git fetch https://github.com/ryznstk/shinkai_system_sepolicy heptakaideka
-git reset --hard FETCH_HEAD
-croot
+#cd system/sepolicy
+#git fetch https://github.com/ryznstk/shinkai_system_sepolicy heptakaideka
+#git reset --hard FETCH_HEAD
+#croot
 
 # Patch
 info "Applying AV patch for dolby"
